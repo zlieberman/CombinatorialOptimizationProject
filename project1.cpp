@@ -21,7 +21,7 @@ int get_idx(int value, int num_bins, int sample_idx) {
 
 bool solve_instance(vector<int> sizes, int K, int B) {
     int num_samples = sizes.size();
-    int num_combinations = (int)pow(K, num_samples);
+    double num_combinations = pow(K, num_samples);
     cout << "Number of possible combinations: " << num_combinations << endl;
     // iterate over all possible combinations
     for (int ii=0; ii<num_combinations; ++ii) {
