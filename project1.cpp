@@ -8,16 +8,16 @@
 
 using namespace std;
 
-vector<int> generate_random_instance(size_t num_samples, int max_item_size) {
-    vector<int> vv(num_samples);
+vector<double> generate_random_instance(size_t num_samples, int max_item_size) {
+    vector<double> vv(num_samples);
     //https://stackoverflow.com/questions/21516575/fill-a-vector-with-random-numbers-c
     auto gen = [&max_item_size](){return rand()%max_item_size;};
     generate(vv.begin(), vv.end(), gen);
     return vv;
 }
 
-vector<int> generate_constant_instance(size_t num_samples, int item_size) {
-    vector<int> vv(num_samples);
+vector<double> generate_constant_instance(size_t num_samples, double item_size) {
+    vector<double> vv(num_samples);
     fill(vv.begin(), vv.end(), item_size);
     return vv;
 }
@@ -29,11 +29,11 @@ int get_idx(int value, int num_bins, int sample_idx) {
 
 // solve an instance of the bin packing problem given the sizes
 // of the objects, the number of bins, and the capacity of each bin
-bool solve_instance(vector<int> sizes, int num_bins, int cap) {
+bool solve_instance(vector<double> sizes, int num_bins, int cap) {
     int num_samples = sizes.size();
     double num_combinations = pow(num_bins, num_samples);
     // certificate to store the bin of each sample
-    vector<int> bin_idxs;
+    //vector<int> bin_idxs;
     cout << "Number of possible combinations: " << num_combinations << endl;
     // iterate over all possible combinations
     for (int ii=0; ii<num_combinations; ++ii) {
@@ -45,7 +45,7 @@ bool solve_instance(vector<int> sizes, int num_bins, int cap) {
         for (int jj=0; jj<num_samples; ++jj) {
             int bin_idx = get_idx(ii, num_bins, jj);
             // add bin of each sample to the certificate
-            bin_idxs.push_back(bin_idx);
+            //bin_idxs.push_back(bin_idx);
             if (bins[bin_idx] >= sizes[jj]) {
                 bins[bin_idx] -= sizes[jj];
             } else {
@@ -61,7 +61,7 @@ bool solve_instance(vector<int> sizes, int num_bins, int cap) {
     return false;
 }
 
-int exhaustive_optimal(const vector<int> sizes, int bin_cap) {
+int exhaustive_optimal(const vector<double> sizes, int bin_cap) {
     int opt_bins = 0;
     bool solved = true;
     // start with as many bins as there are objects and decrease
@@ -77,7 +77,7 @@ int exhaustive_optimal(const vector<int> sizes, int bin_cap) {
 }
 
 // make sure that the solution returned from the algorithm is valid
-bool verify_solution(const vector<int> sizes, const vector<int> certificate, const int num_bins, const int cap) {
+bool verify_solution(const vector<double> sizes, const vector<int> certificate, const int num_bins, const int cap) {
     int bins[num_bins];
     fill_n(bins, num_bins, cap);
     for (size_t ii=0; ii<sizes.size(); ++ii) {
@@ -92,7 +92,7 @@ bool verify_solution(const vector<int> sizes, const vector<int> certificate, con
 }
 
 typedef struct instance_info {
-    vector<int> sizes;
+    vector<double> sizes;
     int bin_capacity;
 } instance_info;
 
@@ -132,7 +132,7 @@ void read_instance(instance_info& instance, string filename) {
         instance_file >> instance.bin_capacity;
         string next;
         getline(instance_file, next);
-        int ss;
+        double ss;
         while (instance_file >> ss) {
             instance.sizes.push_back(ss);
         }
@@ -161,7 +161,7 @@ int main(int argc, char* argv[]) {
         cout << item;
     }
     cout << endl;
-    
+
     int opt_bins = exhaustive_optimal(instance.sizes, instance.bin_capacity);
     cout << "Optimal Solution: " << opt_bins << " bins" << endl;
 
