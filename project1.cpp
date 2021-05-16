@@ -60,6 +60,19 @@ bool solve_instance(vector<int> sizes, int num_bins, int cap) {
     return false;
 }
 
+int exhaustive_optimal(const vector<int> sizes, int bin_cap) {
+    int opt_bins = 0;
+    bool no_solution = false;
+    for (int kk=sizes.size(); kk>0; --kk) {
+        int bins = solve_instance(sizes, kk, bin_cap);
+        if (bins < 0) {
+            break;
+        }
+        opt_bins = bins;
+    }
+    return opt_bins;
+}
+
 bool verify_solution(const vector<int> sizes, const vector<int> certificate, const int num_bins, const int cap) {
     int bins[num_bins];
     fill_n(bins, num_bins, cap);
