@@ -127,9 +127,17 @@ void user_prompt(instance_info& instance) {
 }
 
 void read_instance(instance_info& instance, string filename) {
-    (void)instance; (void)filename;
-
-}
+    ifstream instance_file(filename);
+    if (instance_file.good()) {
+        instance_file >> instance.bin_capacity;
+        string next;
+        getline(instance_file, next);
+        int ss;
+        while (instance_file >> ss) {
+            instance.sizes.push_back(ss);
+        }
+    }
+ }
 
 int main(int argc, char* argv[]) {
     srand(time(0));
@@ -144,16 +152,16 @@ int main(int argc, char* argv[]) {
     /*
     cout << "Number of samples: " << num_samples << endl;
     cout << "Maximum item size: " << max_item_size << endl;
-    cout << "Number of bins: " << num_bins << endl;
     cout << "Capacity of each bin: " << bin_capacity << endl;
     */
-    /*
+    
     // print out the items
+    cout << "Item sizes: ";
     for (auto item : instance.sizes) {
         cout << item;
     }
-    */
     cout << endl;
+    
     int opt_bins = exhaustive_optimal(instance.sizes, instance.bin_capacity);
     cout << "Optimal Solution: " << opt_bins << " bins" << endl;
 
