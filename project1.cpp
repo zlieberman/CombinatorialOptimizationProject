@@ -5,6 +5,7 @@
 #include <time.h>
 #include <algorithm>
 #include <fstream>
+#include "utils.hpp"
 
 using namespace std;
 
@@ -29,7 +30,7 @@ int get_idx(int value, int num_bins, int sample_idx) {
 
 // solve an instance of the bin packing problem given the sizes
 // of the objects, the number of bins, and the capacity of each bin
-bool solve_instance(vector<double> sizes, int num_bins, int cap) {
+bool solve_exhaustive(vector<double> sizes, int num_bins, int cap) {
     int num_samples = sizes.size();
     double num_combinations = pow(num_bins, num_samples);
     // certificate to store the bin of each sample
@@ -67,7 +68,7 @@ int exhaustive_optimal(const vector<double> sizes, int bin_cap) {
     // start with as many bins as there are objects and decrease
     // that total until no solution for kk bins is found
     for (int kk=sizes.size(); kk>0; --kk) {
-        solved = solve_instance(sizes, kk, bin_cap);
+        solved = solve_exhaustive(sizes, kk, bin_cap);
         if (!solved) {
             break;
         }
@@ -90,11 +91,6 @@ bool verify_solution(const vector<double> sizes, const vector<int> certificate, 
     }
     return true;
 }
-
-typedef struct instance_info {
-    vector<double> sizes;
-    int bin_capacity;
-} instance_info;
 
 void user_prompt(instance_info& instance) {
     size_t num_samples;
