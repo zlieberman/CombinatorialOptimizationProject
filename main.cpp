@@ -143,9 +143,10 @@ read_instance(instance_info& instance, string filename)
 {
     ifstream instance_file(filename);
     if (instance_file.good()) {
-        instance_file >> instance.bin_capacity;
         string next;
-        getline(instance_file, next);
+        getline(instance_file, next); // skip the header line
+        instance_file >> instance.bin_capacity;
+        getline(instance_file, next); // skip the other two numbers
         double ss;
         while (instance_file >> ss) {
             instance.sizes.push_back(ss);
