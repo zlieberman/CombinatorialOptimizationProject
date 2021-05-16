@@ -37,7 +37,7 @@ get_idx(int value, int num_bins, int sample_idx)
 // solve an instance of the bin packing problem given the sizes
 // of the objects, the number of bins, and the capacity of each bin
 bool 
-solve_exhaustive(vector<double> sizes, int num_bins, int cap) 
+solve_exhaustive(const vector<double> sizes, const int num_bins, const int cap) 
 {
     int num_samples = sizes.size();
     double num_combinations = pow(num_bins, num_samples);
@@ -167,8 +167,8 @@ main(int argc, char* argv[])
         cout << "Invalid Usage" << endl;
     }
 
-    cout << "######## Instance Info ########" << endl;
-    print_instance_info(instance);
+    //cout << "######## Instance Info ########" << endl;
+    //print_instance_info(instance);
 
     cout << "######## Finding Solution ########" << endl;
     int opt_bins = exhaustive_optimal(instance.sizes, instance.bin_capacity);
