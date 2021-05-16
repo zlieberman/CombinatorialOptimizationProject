@@ -4,6 +4,7 @@
 #include <math.h>
 #include <time.h>
 #include <algorithm>
+#include <fstream>
 
 using namespace std;
 
@@ -62,17 +63,20 @@ bool solve_instance(vector<int> sizes, int num_bins, int cap) {
 
 int exhaustive_optimal(const vector<int> sizes, int bin_cap) {
     int opt_bins = 0;
-    bool no_solution = false;
+    bool solved = true;
+    // start with as many bins as there are objects and decrease
+    // that total until no solution for kk bins is found
     for (int kk=sizes.size(); kk>0; --kk) {
-        int bins = solve_instance(sizes, kk, bin_cap);
-        if (bins < 0) {
+        solved = solve_instance(sizes, kk, bin_cap);
+        if (!solved) {
             break;
         }
-        opt_bins = bins;
+        opt_bins = kk;
     }
     return opt_bins;
 }
 
+// make sure that the solution returned from the algorithm is valid
 bool verify_solution(const vector<int> sizes, const vector<int> certificate, const int num_bins, const int cap) {
     int bins[num_bins];
     fill_n(bins, num_bins, cap);
@@ -87,53 +91,71 @@ bool verify_solution(const vector<int> sizes, const vector<int> certificate, con
     return true;
 }
 
-int main(int argc, char* argv[]) {
-    // make sure the input has proper format
-    if (argc < 5) {
-        cout << "Usage: ./prog num_samples max_item_size num_bins bin_capacity" << endl;
-        return -1;
-    }
-    srand(time(0));
-    // read in the parameters of the problem instance
-    // from the command line
-    size_t num_samples = atoi(argv[1]);
-    int max_item_size = atoi(argv[2]);
-    int num_bins = atoi(argv[3]);
-    int bin_capacity = atoi(argv[4]);
-    cout << "Number of samples: " << num_samples << endl;
-    cout << "Maximum item size: " << max_item_size << endl;
-    cout << "Number of bins: " << num_bins << endl;
-    cout << "Capacity of each bin: " << bin_capacity << endl;
-    // generate the problem instance using the parameters
-    vector<int> items;
+typedef struct instance_info {
+    vector<int> sizes;
+    int bin_capacity;
+} instance_info;
+
+void user_prompt(instance_info& instance) {
+    size_t num_samples;
+    int max_item_size;
+
+    cout << "Number of samples: ";
+    cin >> num_samples;
+    cout << endl;
+    cout << "Maximum item size: ";
+    cin >> max_item_size;
+    cout << endl;
+    cout << "Capacity of each bin: ";
+    cin >> instance.bin_capacity;
+    cout << endl;
     // ask user for either constant or random sizes
     while (1) {
         char instance_type[1];
         cout << "Type 'c' for constant or 'r' for random item sizes" << endl;
         cin >> instance_type;
         if (instance_type[0] == 'c') {
-            items = generate_constant_instance(num_samples, max_item_size);
+            instance.sizes = generate_constant_instance(num_samples, max_item_size);
             break;
         } else if (instance_type[0] == 'r') {
-            items = generate_random_instance(num_samples, max_item_size);
+            instance.sizes = generate_random_instance(num_samples, max_item_size);
             break;
         } else {
             cout << "Invalid input" << endl;
         }
     }
+}
+
+void read_instance(instance_info& instance, string filename) {
+    (void)instance; (void)filename;
+
+}
+
+int main(int argc, char* argv[]) {
+    srand(time(0));
+    instance_info instance;
+    if (argc == 1) {
+        user_prompt(instance);
+    } else if (argc == 2) {
+        read_instance(instance, argv[1]);
+    } else {
+        cout << "Invalid Usage" << endl;
+    }
+    /*
+    cout << "Number of samples: " << num_samples << endl;
+    cout << "Maximum item size: " << max_item_size << endl;
+    cout << "Number of bins: " << num_bins << endl;
+    cout << "Capacity of each bin: " << bin_capacity << endl;
+    */
+    /*
     // print out the items
-    for (auto item : items) {
+    for (auto item : instance.sizes) {
         cout << item;
     }
-    cout << endl;
-    bool solved = solve_instance(items, num_bins, bin_capacity);
-    cout << "Instance solved: ";
-    cout << boolalpha << solved << endl;
-    /*
-    bool verified = verify_solution(balls, certificate, num_bins, bin_capacity);
-    cout << "Instance verified: ";
-    cout << boolalpha << verified << endl;
     */
+    cout << endl;
+    int opt_bins = exhaustive_optimal(instance.sizes, instance.bin_capacity);
+    cout << "Optimal Solution: " << opt_bins << " bins" << endl;
 
     return 0;
 }
