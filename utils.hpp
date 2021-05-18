@@ -4,7 +4,7 @@
 #include <vector>
 
 typedef struct instance_info {
-    std::vector<double> sizes;
+    std::vector<int> sizes;
     int bin_capacity;
     int max_item_size;
 } instance_info;
@@ -19,7 +19,7 @@ print_instance_info(instance_info instance)
     // print out the items
     std::cout << "Item sizes: ";
     for (auto item : instance.sizes) {
-        std::cout << item;
+        std::cout << item << ",";
     }
     std::cout << std::endl;
 }
