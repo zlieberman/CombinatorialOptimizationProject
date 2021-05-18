@@ -50,11 +50,6 @@ get_start_combination(const int num_bins) {
     return (long)start_idx;
 }
 
-typedef struct completion_tree {
-    vector<vector<int>> completions;
-    vector<struct completion_tree> children;
-} completion_tree;
-
 int 
 item_oriented_branch_and_bound(vector<int> sizes, completion_tree comp_tree, const int cap, int min_bins) 
 {

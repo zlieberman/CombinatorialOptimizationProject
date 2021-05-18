@@ -9,6 +9,11 @@ typedef struct instance_info {
     int max_item_size;
 } instance_info;
 
+typedef struct completion_tree {
+    vector<vector<int>> completions;
+    vector<struct completion_tree> children;
+} completion_tree;
+
 void 
 print_instance_info(instance_info instance) 
 {    
