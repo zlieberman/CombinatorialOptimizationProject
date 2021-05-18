@@ -29,11 +29,11 @@ void
 print_bin_list(bin_list bins) 
 {
     for (auto objects : bins) {
-        cout << "{ ";
+        std::cout << "{ ";
         for (auto object : objects) {
-            cout << object << " ";
+            std::cout << object << " ";
         }
-        cout << "}" << endl;
+        std::cout << "}" << std::endl;
     }
 }
 

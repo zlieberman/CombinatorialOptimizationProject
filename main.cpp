@@ -7,7 +7,9 @@
 #include <fstream>
 #include <numeric>
 #include "utils.hpp"
+#include <chrono>
 
+using namespace std::chrono;
 using namespace std;
 
 size_list 
@@ -153,8 +155,12 @@ main(int argc, char* argv[])
     cout << "######## Finding Solution ########" << endl;
     bin_list bins;
     //sort(instance.sizes.begin(),instance.sizes.end());
+    auto start = high_resolution_clock::now();
     int opt_bins = item_oriented_branch_and_bound(instance.sizes,bins,instance.bin_capacity,instance.sizes.size());
+    auto stop = high_resolution_clock::now();
     cout << "Optimal Solution: " << opt_bins << " bins" << endl;
+    auto duration = duration_cast<microseconds>(stop - start);
+    cout << "Converged in " << duration.count() << " microseconds" << endl;
 
     return 0;
 }
