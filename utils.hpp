@@ -4,13 +4,13 @@
 #include <vector>
 
 typedef struct instance_info {
-    std::vector<int> sizes;
-    int bin_capacity;
-    int max_item_size;
+    std::vector<long> sizes;
+    long bin_capacity;
+    long max_item_size;
 } instance_info;
 
 typedef struct completion_tree {
-    std::vector<std::vector<int>> completions;
+    std::vector<std::vector<long>> completions;
     std::vector<struct completion_tree> children;
 } completion_tree;
 

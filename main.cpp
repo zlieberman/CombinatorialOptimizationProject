@@ -10,20 +10,20 @@
 
 using namespace std;
 
-vector<int> 
+vector<long> 
 generate_random_instance(size_t num_samples, int max_item_size) 
 {
-    vector<int> vv(num_samples);
+    vector<long> vv(num_samples);
     //https://stackoverflow.com/questions/21516575/fill-a-vector-with-random-numbers-c
     auto gen = [&max_item_size](){return rand()%max_item_size+1;};
     generate(vv.begin(), vv.end(), gen);
     return vv;
 }
 
-vector<int> 
+vector<long> 
 generate_constant_instance(size_t num_samples, double item_size) 
 {
-    vector<int> vv(num_samples);
+    vector<long> vv(num_samples);
     fill(vv.begin(), vv.end(), item_size);
     return vv;
 }
@@ -51,7 +51,7 @@ get_start_combination(const int num_bins) {
 }
 
 int 
-item_oriented_branch_and_bound(vector<int> sizes, completion_tree comp_tree, const int cap, int min_bins) 
+item_oriented_branch_and_bound(vector<long> sizes, completion_tree comp_tree, const int cap, int min_bins) 
 {
     // base case
     if (sizes.empty()) {
@@ -65,10 +65,10 @@ item_oriented_branch_and_bound(vector<int> sizes, completion_tree comp_tree, con
         }
         */
         int bins = comp_tree.completions.size();
-        //cout << "Minimum number of bins so far: " << bins << endl;
-        //cout << "Number of bins for this configuration: " << min_bins << endl;
+        cout << "Minimum number of bins so far: " << min_bins << endl;
+        cout << "Number of bins for this configuration: " << bins << endl;
         if (bins < min_bins) {
-            cout << "Minimum number of bins so far: " << bins << endl;
+            //cout << "Minimum number of bins so far: " << bins << endl;
             min_bins = bins;
         }
         return min_bins;
@@ -80,7 +80,7 @@ item_oriented_branch_and_bound(vector<int> sizes, completion_tree comp_tree, con
     // if the tree is empty add the first item as its only completion
     if (comp_tree.completions.empty()) {
         //cout << "creating first node" << endl;
-        vector<int> first_completion = { next_item };
+        vector<long> first_completion = { next_item };
         comp_tree.completions.push_back(first_completion);
         return item_oriented_branch_and_bound(sizes, comp_tree, cap, min_bins);
     }
@@ -117,7 +117,7 @@ item_oriented_branch_and_bound(vector<int> sizes, completion_tree comp_tree, con
     // an additional bin with just next_item
     completion_tree child;
     child.completions = comp_tree.completions;
-    vector<int> next_completion = { next_item };
+    vector<long> next_completion = { next_item };
     child.completions.push_back(next_completion);
     comp_tree.children.push_back(child);
     int bins = item_oriented_branch_and_bound(sizes, child, cap, min_bins);
@@ -274,8 +274,8 @@ main(int argc, char* argv[])
         cout << "Invalid Usage" << endl;
     }
 
-    //cout << "######## Instance Info ########" << endl;
-    //print_instance_info(instance);
+    cout << "######## Instance Info ########" << endl;
+    print_instance_info(instance);
 
     cout << "######## Finding Solution ########" << endl;
     completion_tree comp_tree;
