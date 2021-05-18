@@ -1,4 +1,20 @@
 /*
+// get the bin that the object at sample_idx is going to be place in
+long
+get_idx(long value, int num_bins, int sample_idx) 
+{
+    return (long)(value / (long)pow(num_bins, sample_idx)) % num_bins;
+}
+
+long
+get_start_combination(const int num_bins) {
+    double start_idx = 0;
+    for (int coef=1; coef<num_bins; ++coef) {
+        start_idx += (num_bins - coef) * pow(num_bins,coef-1);
+    }
+    return (long)start_idx;
+}
+
 // solve an instance of the bin packing problem given the sizes
 // of the objects, the number of bins, and the capacity of each bin
 bool 

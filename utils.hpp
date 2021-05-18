@@ -25,4 +25,16 @@ print_instance_info(instance_info instance)
     std::cout << std::endl;
 }
 
+void 
+print_bin_list(bin_list bins) 
+{
+    for (auto objects : bins) {
+        cout << "{ ";
+        for (auto object : objects) {
+            cout << object << " ";
+        }
+        cout << "}" << endl;
+    }
+}
+
 #endif

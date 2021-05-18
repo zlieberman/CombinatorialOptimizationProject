@@ -28,36 +28,12 @@ generate_constant_instance(size_t num_samples, double item_size)
     return vv;
 }
 
-// get the bin that the object at sample_idx is going to be place in
-long
-get_idx(long value, int num_bins, int sample_idx) 
-{
-    return (long)(value / (long)pow(num_bins, sample_idx)) % num_bins;
-}
-
-long
-get_start_combination(const int num_bins) {
-    double start_idx = 0;
-    for (int coef=1; coef<num_bins; ++coef) {
-        start_idx += (num_bins - coef) * pow(num_bins,coef-1);
-    }
-    return (long)start_idx;
-}
-
 int 
 item_oriented_branch_and_bound(size_list sizes, bin_list bins, const int cap, int min_bins) 
 {
     // base case
     if (sizes.empty()) {
-        /*cout << "base case reached" << endl;
-        for (auto completion : comp_tree.completions) {
-            cout << "{ ";
-            for (auto item : completion) {
-                cout << item << " ";
-            }
-            cout << "}" << endl;
-        }
-        */
+        //print_bin_list(bins);
         int num_bins = bins.size();
         cout << "Minimum number of bins so far: " << min_bins << endl;
         cout << "Number of bins for this configuration: " << num_bins << endl;
@@ -112,7 +88,6 @@ item_oriented_branch_and_bound(size_list sizes, bin_list bins, const int cap, in
     if (num_bins < min_bins) {
         min_bins = num_bins;
     }
-
     return min_bins;
 }
 
