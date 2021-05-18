@@ -1,5 +1,5 @@
 
-for i in range(1,9):
+for i in range(1,5):
     f = open('data/binpack' + str(i) +'.txt','r')
     count = 0
     string = ''
