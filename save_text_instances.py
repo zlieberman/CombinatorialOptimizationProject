@@ -1,4 +1,3 @@
-
 for i in range(1,5):
     f = open('data/binpack' + str(i) +'.txt','r')
     count = 0
@@ -16,6 +15,3 @@ for i in range(1,5):
     f2.write(string)
     f2.close()
     f.close()
-
-
-# print(string)

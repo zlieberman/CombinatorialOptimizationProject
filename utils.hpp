@@ -10,8 +10,8 @@ typedef struct instance_info {
 } instance_info;
 
 typedef struct completion_tree {
-    vector<vector<int>> completions;
-    vector<struct completion_tree> children;
+    std::vector<std::vector<int>> completions;
+    std::vector<struct completion_tree> children;
 } completion_tree;
 
 void 
