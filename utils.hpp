@@ -3,15 +3,13 @@
 
 #include <vector>
 
+typedef std::vector<long> size_list;
+typedef std::vector<size_list> bin_list;
+
 typedef struct instance_info {
-    std::vector<long> sizes;
+    size_list sizes;
     long bin_capacity;
 } instance_info;
-
-typedef struct completion_tree {
-    std::vector<std::vector<long>> completions;
-    std::vector<struct completion_tree> children;
-} completion_tree;
 
 void 
 print_instance_info(instance_info instance) 

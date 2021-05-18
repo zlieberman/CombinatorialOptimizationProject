@@ -10,20 +10,20 @@
 
 using namespace std;
 
-vector<long> 
+size_list 
 generate_random_instance(size_t num_samples, int max_item_size) 
 {
-    vector<long> vv(num_samples);
+    size_list vv(num_samples);
     //https://stackoverflow.com/questions/21516575/fill-a-vector-with-random-numbers-c
     auto gen = [&max_item_size](){return rand()%max_item_size+1;};
     generate(vv.begin(), vv.end(), gen);
     return vv;
 }
 
-vector<long> 
+size_list 
 generate_constant_instance(size_t num_samples, double item_size) 
 {
-    vector<long> vv(num_samples);
+    size_list vv(num_samples);
     fill(vv.begin(), vv.end(), item_size);
     return vv;
 }
@@ -45,7 +45,7 @@ get_start_combination(const int num_bins) {
 }
 
 int 
-item_oriented_branch_and_bound(vector<long> sizes, completion_tree comp_tree, const int cap, int min_bins) 
+item_oriented_branch_and_bound(size_list sizes, bin_list bins, const int cap, int min_bins) 
 {
     // base case
     if (sizes.empty()) {
@@ -58,12 +58,12 @@ item_oriented_branch_and_bound(vector<long> sizes, completion_tree comp_tree, co
             cout << "}" << endl;
         }
         */
-        int bins = comp_tree.completions.size();
+        int num_bins = bins.size();
         cout << "Minimum number of bins so far: " << min_bins << endl;
-        cout << "Number of bins for this configuration: " << bins << endl;
-        if (bins < min_bins) {
+        cout << "Number of bins for this configuration: " << num_bins << endl;
+        if (num_bins < min_bins) {
             //cout << "Minimum number of bins so far: " << bins << endl;
-            min_bins = bins;
+            min_bins = num_bins;
         }
         return min_bins;
     }
@@ -72,54 +72,47 @@ item_oriented_branch_and_bound(vector<long> sizes, completion_tree comp_tree, co
     sizes.pop_back();
 
     // if the tree is empty add the first item as its only completion
-    if (comp_tree.completions.empty()) {
+    if (bins.empty()) {
         //cout << "creating first node" << endl;
-        vector<long> first_completion = { next_item };
-        comp_tree.completions.push_back(first_completion);
-        return item_oriented_branch_and_bound(sizes, comp_tree, cap, min_bins);
+        size_list first_completion = { next_item };
+        bins.push_back(first_completion);
+        return item_oriented_branch_and_bound(sizes, bins, cap, min_bins);
     }
 
     // now we are being passed in the parent, we should use the parent to generate
     // child nodes
-    for (int ii=0; ii<comp_tree.completions.size(); ++ii) {
+    for (int ii=0; ii<bins.size(); ++ii) {
         // for each completion in the completion tree, if next_item can be added
         // to it without violating the capacity constraint, create a child node
         // with next_item added to that completion
-        auto completion = comp_tree.completions[ii];
+        auto completion = bins[ii];
         int cur_size = accumulate(completion.begin(),completion.end(),0);
         if (cur_size + next_item <= cap) {
-            //cout << "creating child" << endl;
-            // make a new child node in the tree
-            completion_tree child;
-            for (int jj=0; jj<comp_tree.completions.size(); ++jj) {
+            // run the exhaustive search using the new set of subsets
+            bin_list child;
+            for (int jj=0; jj<bins.size(); ++jj) {
                 if (ii == jj) {
-                    child.completions.push_back(completion);
-                    child.completions[jj].push_back(next_item);
+                    child.push_back(completion);
+                    child[jj].push_back(next_item);
                 } else {
-                    child.completions.push_back(comp_tree.completions[jj]);
+                    child.push_back(bins[jj]);
                 }
             }
-            comp_tree.children.push_back(child);
             int bins = item_oriented_branch_and_bound(sizes, child, cap, min_bins);
             if (bins < min_bins) {
                 min_bins = bins;
-                //cout << "Minimum number of bins so far: " << min_bins << endl;
             }
         } 
     }
     // we can also add a child with all of the completions of the parent plus
     // an additional bin with just next_item
-    completion_tree child;
-    child.completions = comp_tree.completions;
-    vector<long> next_completion = { next_item };
-    child.completions.push_back(next_completion);
-    comp_tree.children.push_back(child);
-    int bins = item_oriented_branch_and_bound(sizes, child, cap, min_bins);
-    if (bins < min_bins) {
-        min_bins = bins;
-        cout << "Minimum number of bins so far: " << min_bins << endl;
+    size_list child = { next_item };
+    bins.push_back(child);
+    int num_bins = item_oriented_branch_and_bound(sizes, bins, cap, min_bins);
+    if (num_bins < min_bins) {
+        min_bins = num_bins;
     }
-    //cout << "reached end" << endl;
+
     return min_bins;
 }
 
@@ -186,10 +179,9 @@ main(int argc, char* argv[])
     print_instance_info(instance);
 
     cout << "######## Finding Solution ########" << endl;
-    completion_tree comp_tree;
+    bin_list bins;
     //sort(instance.sizes.begin(),instance.sizes.end());
-    int opt_bins = item_oriented_branch_and_bound(instance.sizes,comp_tree,instance.bin_capacity,instance.sizes.size());
-    //int opt_bins = exhaustive_optimal(instance.sizes, instance.bin_capacity);
+    int opt_bins = item_oriented_branch_and_bound(instance.sizes,bins,instance.bin_capacity,instance.sizes.size());
     cout << "Optimal Solution: " << opt_bins << " bins" << endl;
 
     return 0;
