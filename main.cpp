@@ -31,7 +31,7 @@ generate_constant_instance(size_t num_samples, double item_size)
 int 
 item_oriented_branch_and_bound(size_list sizes, bin_list bins, const int cap, int min_bins) 
 {
-    // base case
+    // if we've inserted every item in the list of sizes we're done
     if (sizes.empty()) {
         //print_bin_list(bins);
         int num_bins = bins.size();
@@ -47,7 +47,7 @@ item_oriented_branch_and_bound(size_list sizes, bin_list bins, const int cap, in
     int next_item = sizes.back();
     sizes.pop_back();
 
-    // if the tree is empty add the first item as its only completion
+    // if all of the bins are empty
     if (bins.empty()) {
         //cout << "creating first node" << endl;
         size_list first_completion = { next_item };
