@@ -64,8 +64,13 @@ item_oriented_branch_and_bound(vector<int> sizes, completion_tree comp_tree, con
             cout << "}" << endl;
         }
         */
-        min_bins = comp_tree.completions.size();
-        //cout << "Feasible Solution with " << min_bins << " bins" << endl;
+        int bins = comp_tree.completions.size();
+        //cout << "Minimum number of bins so far: " << bins << endl;
+        //cout << "Number of bins for this configuration: " << min_bins << endl;
+        if (bins < min_bins) {
+            cout << "Minimum number of bins so far: " << bins << endl;
+            min_bins = bins;
+        }
         return min_bins;
     }
 
@@ -104,7 +109,7 @@ item_oriented_branch_and_bound(vector<int> sizes, completion_tree comp_tree, con
             int bins = item_oriented_branch_and_bound(sizes, child, cap, min_bins);
             if (bins < min_bins) {
                 min_bins = bins;
-                cout << "Minimum number of bins so far: " << min_bins << endl;
+                //cout << "Minimum number of bins so far: " << min_bins << endl;
             }
         } 
     }
@@ -269,12 +274,12 @@ main(int argc, char* argv[])
         cout << "Invalid Usage" << endl;
     }
 
-    cout << "######## Instance Info ########" << endl;
-    print_instance_info(instance);
+    //cout << "######## Instance Info ########" << endl;
+    //print_instance_info(instance);
 
     cout << "######## Finding Solution ########" << endl;
     completion_tree comp_tree;
-    sort(instance.sizes.begin(),instance.sizes.end());
+    //sort(instance.sizes.begin(),instance.sizes.end());
     int opt_bins = item_oriented_branch_and_bound(instance.sizes,comp_tree,instance.bin_capacity,instance.sizes.size());
     //int opt_bins = exhaustive_optimal(instance.sizes, instance.bin_capacity);
     cout << "Optimal Solution: " << opt_bins << " bins" << endl;
