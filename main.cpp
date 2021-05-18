@@ -43,10 +43,8 @@ item_oriented_branch_and_bound(size_list sizes, bin_list bins, const int cap, in
         }
         return min_bins;
     }
-
     int next_item = sizes.back();
     sizes.pop_back();
-
     // if all of the bins are empty
     if (bins.empty()) {
         //cout << "creating first node" << endl;
@@ -54,7 +52,6 @@ item_oriented_branch_and_bound(size_list sizes, bin_list bins, const int cap, in
         bins.push_back(first_completion);
         return item_oriented_branch_and_bound(sizes, bins, cap, min_bins);
     }
-
     // now we are being passed in the parent, we should use the parent to generate
     // child nodes
     for (int ii=0; ii<bins.size(); ++ii) {
@@ -130,7 +127,7 @@ read_instance(instance_info& instance, string filename)
         getline(instance_file, next); // skip the header line
         instance_file >> instance.bin_capacity;
         getline(instance_file, next); // skip the other two numbers
-        double ss;
+        int ss;
         while (instance_file >> ss) {
             instance.sizes.push_back(ss);
         }
