@@ -123,40 +123,6 @@ item_oriented_branch_and_bound(vector<int> sizes, completion_tree comp_tree, con
     //cout << "reached end" << endl;
     return min_bins;
 }
-/*
-int 
-item_oriented_branch_and_bound(const vector<int> sizes, const int cap) {
-    vector_tree feasible_completion_tree;
-    vector<int> unchecked_items(sizes);
-    sort(unchecked_items.begin(),unchecked_items.end());
-    while (!unchecked_items.empty()) {
-        int next_item = unchecked_items.back();
-        if (!feasible_completion_tree.completions.empty()) {
-            // try to add this item to all existing feasible completions
-            for (auto completion : feasible_completion_tree.completions) {
-                int cur_size = accumulate(completion.begin(),completion.end(),0);
-                if (cur_size + next_item <= cap) {
-                    // make a new child node in the tree
-                    vector_tree new_node;
-                    new_node.completions = feasible_completion_tree.completions;
-                    completion.push_back(next_item);
-                }
-            }
-        } else {
-            // this will only be checked once, and since the input
-            // is sorted if this inequality is false then it will
-            // be false for every other item in sizes
-            if (next_item > cap) {
-                return 0;
-            }
-        }
-        // the next item alone is always a feasible bin completion
-        vector<int> completion = { next_item };
-        feasible_completion_tree.completions.push_back(completion);
-        unchecked_items.pop_back();
-    }
-}
-*/
 
 // solve an instance of the bin packing problem given the sizes
 // of the objects, the number of bins, and the capacity of each bin
