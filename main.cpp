@@ -47,13 +47,6 @@ item_oriented_branch_and_bound(size_list sizes, bin_list bins, const int cap, in
     }
     int next_item = sizes.back();
     sizes.pop_back();
-    // if all of the bins are empty
-    if (bins.empty()) {
-        //cout << "creating first node" << endl;
-        size_list first_completion = { next_item };
-        bins.push_back(first_completion);
-        return item_oriented_branch_and_bound(sizes, bins, cap, min_bins);
-    }
     // now we are being passed in the parent, we should use the parent to generate
     // child nodes
     for (int ii=0; ii<bins.size(); ++ii) {
@@ -154,7 +147,7 @@ main(int argc, char* argv[])
 
     cout << "######## Finding Solution ########" << endl;
     bin_list bins;
-    //sort(instance.sizes.begin(),instance.sizes.end());
+    sort(instance.sizes.begin(),instance.sizes.end());
     auto start = high_resolution_clock::now();
     int opt_bins = item_oriented_branch_and_bound(instance.sizes,bins,instance.bin_capacity,instance.sizes.size());
     auto stop = high_resolution_clock::now();
