@@ -83,6 +83,31 @@ item_oriented_branch_and_bound(size_list sizes, bin_list bins, const int cap, in
     return min_bins;
 }
 
+int
+greedy_first_fit_search(size_list sizes, bin_list bins, const int cap) {
+    int num_bins = 0;
+    sort(sizes.begin(),sizes.end());
+    for (int ii=sizes.size()-1;ii>=0;--ii) {
+        int jj=0;
+        for (;jj<num_bins;++jj) {
+            int bin_size = accumulate(bins[jj].begin(),bins[jj].end(),0);
+            if (bin_size + sizes[ii] <= cap) {
+                bins[jj].push_back(sizes[ii]);
+                break;
+            } else if (jj == num_bins-1) {
+                bins.push_back({sizes[ii]});
+                ++num_bins;
+                break;
+            }
+        }
+        if (num_bins == 0) {
+            bins.push_back({sizes[ii]});
+            ++num_bins;
+        }
+    }
+    return num_bins;
+}
+
 void 
 user_prompt(instance_info& instance) 
 {
@@ -146,10 +171,10 @@ main(int argc, char* argv[])
     print_instance_info(instance);
 
     cout << "######## Finding Solution ########" << endl;
-    bin_list bins;
-    sort(instance.sizes.begin(),instance.sizes.end());
+    bin_list bins = {};
     auto start = high_resolution_clock::now();
-    int opt_bins = item_oriented_branch_and_bound(instance.sizes,bins,instance.bin_capacity,instance.sizes.size());
+    //int opt_bins = item_oriented_branch_and_bound(instance.sizes,bins,instance.bin_capacity,instance.sizes.size());
+    int opt_bins = greedy_first_fit_search(instance.sizes,bins,instance.bin_capacity);
     auto stop = high_resolution_clock::now();
     cout << "Optimal Solution: " << opt_bins << " bins" << endl;
     auto duration = duration_cast<microseconds>(stop - start);
