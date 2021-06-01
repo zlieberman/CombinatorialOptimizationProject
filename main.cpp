@@ -85,24 +85,27 @@ item_oriented_branch_and_bound(size_list sizes, bin_list bins, const int cap, in
 
 int
 greedy_first_fit_search(size_list sizes, bin_list bins, const double cap) {
-    int num_bins = 0;
+    // sort the list of sizes
     sort(sizes.begin(),sizes.end());
-    for (int ii=sizes.size()-1;ii>=0;--ii) {
-        int jj=0;
-        for (;jj<num_bins;++jj) {
-            double bin_size = accumulate(bins[jj].begin(),bins[jj].end(),0);
-            if (bin_size + sizes[ii] <= cap) {
+    int num_bins = 1;
+    int ii=sizes.size()-1;
+    // add the largest item to the first bin
+    bins.push_back({sizes[ii]});
+    size_list bin_sizes({sizes[ii]});
+    --ii;
+    // add items to the first bin they fit in
+    for (;ii>=0;--ii) {
+        for (int jj=0;jj<num_bins;++jj) {
+            if (bin_sizes[jj] + sizes[ii] <= cap) { // check if the item fits
                 bins[jj].push_back(sizes[ii]);
+                bin_sizes[jj]+=sizes[ii];
                 break;
-            } else if (jj == num_bins-1) {
+            } else if (jj == num_bins-1) { // item didn't fit in any bin
                 bins.push_back({sizes[ii]});
+                bin_sizes.push_back({sizes[ii]});
                 ++num_bins;
                 break;
             }
-        }
-        if (num_bins == 0) {
-            bins.push_back({sizes[ii]});
-            ++num_bins;
         }
     }
     return num_bins;
@@ -163,6 +166,7 @@ read_instance(instance_info& instance, string filename)
             instance.sizes.push_back(ss);
         }
     }
+    random_shuffle(instance.sizes.begin(), instance.sizes.end());
  }
 
 int 
@@ -171,8 +175,8 @@ main(int argc, char* argv[])
     srand(time(0));
     instance_info instance;
     if (argc == 1) {
-        //user_prompt(instance);
-        manual_instance(instance);
+        user_prompt(instance);
+        //manual_instance(instance);
     } else if (argc == 2) {
         read_instance(instance, argv[1]);
     } else {
