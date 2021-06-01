@@ -3,7 +3,7 @@
 
 #include <vector>
 
-typedef std::vector<long> size_list;
+typedef std::vector<double> size_list;
 typedef std::vector<size_list> bin_list;
 
 typedef struct instance_info {

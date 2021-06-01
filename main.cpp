@@ -45,7 +45,7 @@ item_oriented_branch_and_bound(size_list sizes, bin_list bins, const int cap, in
         }
         return min_bins;
     }
-    int next_item = sizes.back();
+    double next_item = sizes.back();
     sizes.pop_back();
     // now we are being passed in the parent, we should use the parent to generate
     // child nodes
@@ -54,7 +54,7 @@ item_oriented_branch_and_bound(size_list sizes, bin_list bins, const int cap, in
         // to it without violating the capacity constraint, create a child node
         // with next_item added to that completion
         auto completion = bins[ii];
-        int cur_size = accumulate(completion.begin(),completion.end(),0);
+        double cur_size = accumulate(completion.begin(),completion.end(),0);
         if (cur_size + next_item <= cap) {
             // run the exhaustive search using the new set of subsets
             bin_list child;
@@ -84,13 +84,13 @@ item_oriented_branch_and_bound(size_list sizes, bin_list bins, const int cap, in
 }
 
 int
-greedy_first_fit_search(size_list sizes, bin_list bins, const int cap) {
+greedy_first_fit_search(size_list sizes, bin_list bins, const double cap) {
     int num_bins = 0;
     sort(sizes.begin(),sizes.end());
     for (int ii=sizes.size()-1;ii>=0;--ii) {
         int jj=0;
         for (;jj<num_bins;++jj) {
-            int bin_size = accumulate(bins[jj].begin(),bins[jj].end(),0);
+            double bin_size = accumulate(bins[jj].begin(),bins[jj].end(),0);
             if (bin_size + sizes[ii] <= cap) {
                 bins[jj].push_back(sizes[ii]);
                 break;
@@ -136,6 +136,17 @@ user_prompt(instance_info& instance)
     }
 }
 
+void
+manual_instance(instance_info& instance) {
+    cout << "Enter a bin capacity: ";
+    cin >> instance.bin_capacity; 
+    double item;
+    cout << "Type each item size followed by a newline" << endl;
+    while (cin >> item) {
+        instance.sizes.push_back(item);
+    }
+}
+
 // read in the bin capacity and sizes of the objects from
 // a text file with appropriate formatting
 void 
@@ -147,7 +158,7 @@ read_instance(instance_info& instance, string filename)
         getline(instance_file, next); // skip the header line
         instance_file >> instance.bin_capacity;
         getline(instance_file, next); // skip the other two numbers
-        int ss;
+        double ss;
         while (instance_file >> ss) {
             instance.sizes.push_back(ss);
         }
@@ -160,7 +171,8 @@ main(int argc, char* argv[])
     srand(time(0));
     instance_info instance;
     if (argc == 1) {
-        user_prompt(instance);
+        //user_prompt(instance);
+        manual_instance(instance);
     } else if (argc == 2) {
         read_instance(instance, argv[1]);
     } else {
@@ -171,12 +183,13 @@ main(int argc, char* argv[])
     print_instance_info(instance);
 
     cout << "######## Finding Solution ########" << endl;
-    bin_list bins = {};
+    bin_list bins;
     auto start = high_resolution_clock::now();
     //int opt_bins = item_oriented_branch_and_bound(instance.sizes,bins,instance.bin_capacity,instance.sizes.size());
-    int opt_bins = greedy_first_fit_search(instance.sizes,bins,instance.bin_capacity);
+    int greedy_bins = greedy_first_fit_search(instance.sizes,bins,instance.bin_capacity);
     auto stop = high_resolution_clock::now();
-    cout << "Optimal Solution: " << opt_bins << " bins" << endl;
+    //cout << "Optimal Solution: " << opt_bins << " bins" << endl;
+    cout << "Greedy Solution: " << greedy_bins << " bins" << endl;
     auto duration = duration_cast<microseconds>(stop - start);
     cout << "Converged in " << duration.count() << " microseconds" << endl;
 
