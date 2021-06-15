@@ -1,0 +1,4 @@
+model binpack.mod;
+data data/extracted/2/5.dat;
+solve;
+reset;
