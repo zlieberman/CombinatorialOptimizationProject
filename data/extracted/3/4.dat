@@ -1,6 +1,6 @@
-param N := 150;
-param M := 150;
-param C := 500;
+param N := 500;
+param M := 500;
+param C := 150;
 param sizes := 
 1 64
 2 42
