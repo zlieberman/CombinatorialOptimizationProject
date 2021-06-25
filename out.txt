@@ -1,0 +1,448 @@
+Instance 1-1
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 49
+268508 MIP simplex iterations
+10129 branch-and-bound nodes
+absmipgap = 1.81333, relmipgap = 0.0370068
+Instance 1-2
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 49
+300866 MIP simplex iterations
+8262 branch-and-bound nodes
+Instance 1-3
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: optimal integer solution; objective 46
+310337 MIP simplex iterations
+8663 branch-and-bound nodes
+Instance 1-4
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 50
+300050 MIP simplex iterations
+8890 branch-and-bound nodes
+absmipgap = 1.43333, relmipgap = 0.0286667
+Instance 1-5
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 51
+317455 MIP simplex iterations
+9176 branch-and-bound nodes
+absmipgap = 1.97333, relmipgap = 0.0386928
+Instance 1-6
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 49
+289331 MIP simplex iterations
+8463 branch-and-bound nodes
+absmipgap = 1.52, relmipgap = 0.0310204
+Instance 1-7
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 49
+467526 MIP simplex iterations
+13997 branch-and-bound nodes
+absmipgap = 1.42, relmipgap = 0.0289796
+Instance 1-8
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 50
+401416 MIP simplex iterations
+7579 branch-and-bound nodes
+absmipgap = 1.36667, relmipgap = 0.0273333
+Instance 1-9
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 51
+392270 MIP simplex iterations
+7911 branch-and-bound nodes
+absmipgap = 1.13468, relmipgap = 0.0222486
+Instance 1-10
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 47
+218349 MIP simplex iterations
+6939 branch-and-bound nodes
+absmipgap = 1.2, relmipgap = 0.0255319
+Instance 2-1
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 102
+8549 MIP simplex iterations
+42 branch-and-bound nodes
+absmipgap = 3.44667, relmipgap = 0.0337908
+Instance 2-2
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 102
+51954 MIP simplex iterations
+379 branch-and-bound nodes
+absmipgap = 2.97333, relmipgap = 0.0291503
+Instance 2-3
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 105
+80380 MIP simplex iterations
+565 branch-and-bound nodes
+absmipgap = 3.58, relmipgap = 0.0340952
+Instance 2-4
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 102
+254292 MIP simplex iterations
+1600 branch-and-bound nodes
+absmipgap = 2.57333, relmipgap = 0.0252288
+Instance 2-5
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 104
+175412 MIP simplex iterations
+1401 branch-and-bound nodes
+absmipgap = 3.38667, relmipgap = 0.0325641
+Instance 2-6
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 105
+127417 MIP simplex iterations
+2011 branch-and-bound nodes
+absmipgap = 4.17333, relmipgap = 0.039746
+Instance 2-7
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 105
+231268 MIP simplex iterations
+1612 branch-and-bound nodes
+absmipgap = 3.97333, relmipgap = 0.0378413
+Instance 2-8
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 107
+75084 MIP simplex iterations
+860 branch-and-bound nodes
+absmipgap = 4.21333, relmipgap = 0.0393769
+Instance 2-9
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 108
+168452 MIP simplex iterations
+721 branch-and-bound nodes
+absmipgap = 3.08667, relmipgap = 0.0285802
+Instance 2-10
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 104
+72884 MIP simplex iterations
+928 branch-and-bound nodes
+absmipgap = 3.8, relmipgap = 0.0365385
+Instance 3-1
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 208
+3658 MIP simplex iterations
+0 branch-and-bound nodes
+absmipgap = 10.42, relmipgap = 0.0500962
+Instance 3-2
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 210
+4528 MIP simplex iterations
+0 branch-and-bound nodes
+absmipgap = 9.15333, relmipgap = 0.0435873
+Instance 3-3
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 211
+3682 MIP simplex iterations
+0 branch-and-bound nodes
+absmipgap = 9.56, relmipgap = 0.0453081
+Instance 3-4
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 215
+2469 MIP simplex iterations
+0 branch-and-bound nodes
+absmipgap = 11.1867, relmipgap = 0.052031
+Instance 3-5
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 222
+4292 MIP simplex iterations
+0 branch-and-bound nodes
+absmipgap = 16.8867, relmipgap = 0.0760661
+Instance 3-6
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 219
+3587 MIP simplex iterations
+0 branch-and-bound nodes
+absmipgap = 13.9133, relmipgap = 0.0635312
+Instance 3-7
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 223
+3557 MIP simplex iterations
+0 branch-and-bound nodes
+absmipgap = 16.1133, relmipgap = 0.0722571
+Instance 3-8
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 214
+4598 MIP simplex iterations
+0 branch-and-bound nodes
+absmipgap = 10.02, relmipgap = 0.0468224
+Instance 3-9
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 206
+2454 MIP simplex iterations
+0 branch-and-bound nodes
+absmipgap = 10.32, relmipgap = 0.0500971
+Instance 3-10
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 214
+3913 MIP simplex iterations
+0 branch-and-bound nodes
+absmipgap = 12.94, relmipgap = 0.0604673
+Instance 4-1
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 1000
+0 MIP simplex iterations
+0 branch-and-bound nodes
+absmipgap = 1000, relmipgap = 1
+Instance 4-2
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 1000
+0 MIP simplex iterations
+0 branch-and-bound nodes
+absmipgap = 1000, relmipgap = 1
+Instance 4-3
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 1000
+0 MIP simplex iterations
+0 branch-and-bound nodes
+absmipgap = 1000, relmipgap = 1
+Instance 4-4
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 1000
+0 MIP simplex iterations
+0 branch-and-bound nodes
+absmipgap = 1000, relmipgap = 1
+Instance 4-5
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 1000
+0 MIP simplex iterations
+0 branch-and-bound nodes
+absmipgap = 1000, relmipgap = 1
+Instance 4-6
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 1000
+0 MIP simplex iterations
+0 branch-and-bound nodes
+absmipgap = 1000, relmipgap = 1
+Instance 4-7
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 1000
+0 MIP simplex iterations
+0 branch-and-bound nodes
+absmipgap = 1000, relmipgap = 1
+Instance 4-8
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 1000
+0 MIP simplex iterations
+0 branch-and-bound nodes
+absmipgap = 1000, relmipgap = 1
+Instance 4-9
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 1000
+0 MIP simplex iterations
+0 branch-and-bound nodes
+absmipgap = 1000, relmipgap = 1
+Instance 4-10
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 1000
+0 MIP simplex iterations
+0 branch-and-bound nodes
+absmipgap = 1000, relmipgap = 1
+Instance 5-1
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: optimal integer solution; objective 20
+272 MIP simplex iterations
+0 branch-and-bound nodes
+Instance 5-2
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: optimal integer solution; objective 20
+267 MIP simplex iterations
+0 branch-and-bound nodes
+Instance 5-3
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: optimal integer solution; objective 20
+273 MIP simplex iterations
+0 branch-and-bound nodes
+Instance 5-4
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: optimal integer solution; objective 20
+271 MIP simplex iterations
+0 branch-and-bound nodes
+Instance 5-5
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: optimal integer solution; objective 20
+273 MIP simplex iterations
+0 branch-and-bound nodes
+Instance 5-6
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: optimal integer solution; objective 20
+271 MIP simplex iterations
+0 branch-and-bound nodes
+Instance 5-7
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: optimal integer solution; objective 20
+295 MIP simplex iterations
+0 branch-and-bound nodes
+Instance 5-8
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: optimal integer solution; objective 20
+272 MIP simplex iterations
+0 branch-and-bound nodes
+Instance 5-9
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: optimal integer solution; objective 20
+259 MIP simplex iterations
+0 branch-and-bound nodes
+Instance 5-10
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: optimal integer solution; objective 20
+294 MIP simplex iterations
+0 branch-and-bound nodes
+Instance 6-1
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: optimal integer solution; objective 40
+515 MIP simplex iterations
+0 branch-and-bound nodes
+Instance 6-2
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: optimal integer solution; objective 40
+515 MIP simplex iterations
+0 branch-and-bound nodes
+Instance 6-3
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: optimal integer solution; objective 40
+554 MIP simplex iterations
+0 branch-and-bound nodes
+Instance 6-4
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: optimal integer solution; objective 40
+566 MIP simplex iterations
+0 branch-and-bound nodes
+Instance 6-5
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: optimal integer solution; objective 40
+539 MIP simplex iterations
+0 branch-and-bound nodes
+Instance 6-6
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: optimal integer solution; objective 40
+531 MIP simplex iterations
+0 branch-and-bound nodes
+Instance 6-7
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: optimal integer solution; objective 40
+534 MIP simplex iterations
+0 branch-and-bound nodes
+Instance 6-8
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: optimal integer solution; objective 40
+534 MIP simplex iterations
+0 branch-and-bound nodes
+Instance 6-9
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: optimal integer solution; objective 40
+555 MIP simplex iterations
+0 branch-and-bound nodes
+Instance 6-10
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: optimal integer solution; objective 40
+545 MIP simplex iterations
+0 branch-and-bound nodes
+Instance 7-1
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: optimal integer solution; objective 83
+725 MIP simplex iterations
+0 branch-and-bound nodes
+Instance 7-2
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: optimal integer solution; objective 83
+726 MIP simplex iterations
+0 branch-and-bound nodes
+Instance 7-3
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: optimal integer solution; objective 83
+729 MIP simplex iterations
+0 branch-and-bound nodes
+Instance 7-4
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: optimal integer solution; objective 83
+730 MIP simplex iterations
+0 branch-and-bound nodes
+Instance 7-5
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: optimal integer solution; objective 83
+726 MIP simplex iterations
+0 branch-and-bound nodes
+Instance 7-6
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: optimal integer solution; objective 83
+730 MIP simplex iterations
+0 branch-and-bound nodes
+Instance 7-7
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: optimal integer solution; objective 83
+728 MIP simplex iterations
+0 branch-and-bound nodes
+Instance 7-8
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: optimal integer solution; objective 83
+730 MIP simplex iterations
+0 branch-and-bound nodes
+Instance 7-9
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: optimal integer solution; objective 83
+727 MIP simplex iterations
+0 branch-and-bound nodes
+Instance 7-10
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: optimal integer solution; objective 83
+729 MIP simplex iterations
+0 branch-and-bound nodes
+Instance 8-1
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 183
+3501 MIP simplex iterations
+0 branch-and-bound nodes
+absmipgap = 16, relmipgap = 0.0874317
+Instance 8-2
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 183
+3301 MIP simplex iterations
+0 branch-and-bound nodes
+absmipgap = 16, relmipgap = 0.0874317
+Instance 8-3
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 181
+3412 MIP simplex iterations
+0 branch-and-bound nodes
+absmipgap = 14, relmipgap = 0.0773481
+Instance 8-4
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 181
+3255 MIP simplex iterations
+0 branch-and-bound nodes
+absmipgap = 14, relmipgap = 0.0773481
+Instance 8-5
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 181
+3423 MIP simplex iterations
+0 branch-and-bound nodes
+absmipgap = 14, relmipgap = 0.0773481
+Instance 8-6
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 184
+3364 MIP simplex iterations
+0 branch-and-bound nodes
+absmipgap = 17, relmipgap = 0.0923913
+Instance 8-7
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 181
+3359 MIP simplex iterations
+0 branch-and-bound nodes
+absmipgap = 14, relmipgap = 0.0773481
+Instance 8-8
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 181
+4207 MIP simplex iterations
+0 branch-and-bound nodes
+absmipgap = 14, relmipgap = 0.0773481
+Instance 8-9
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 182
+4384 MIP simplex iterations
+0 branch-and-bound nodes
+absmipgap = 15, relmipgap = 0.0824176
+Instance 8-10
+CPLEX 20.1.0.0: time=60
+CPLEX 20.1.0.0: time limit with integer solution; objective 181
+4125 MIP simplex iterations
+0 branch-and-bound nodes
+absmipgap = 14, relmipgap = 0.0773481

@@ -83,8 +83,9 @@ item_oriented_branch_and_bound(size_list sizes, bin_list bins, const int cap, in
     return min_bins;
 }
 
-int
-greedy_first_fit_search(size_list sizes, bin_list bins, const double cap) {
+bin_list
+first_fit_decreasing(size_list sizes, bin_list bins, const double cap) 
+{
     // sort the list of sizes
     sort(sizes.begin(),sizes.end());
     int num_bins = 1;
@@ -108,7 +109,100 @@ greedy_first_fit_search(size_list sizes, bin_list bins, const double cap) {
             }
         }
     }
+    return bins;
+}
+
+int
+best_fit(size_list sizes, bin_list bins, const double cap)
+{
+    int num_bins = 1;
+    // add the first item to the first bin
+    bins.push_back({sizes[0]});
+    // heap of current size of each bin
+    size_list bin_sizes({sizes[0]});
+    // add items to the first bin they fit in
+    for (int ii=0;ii<=sizes.size();--ii) {
+        for (int jj=num_bins;jj>=0;--jj) {
+            if (bin_sizes[jj] + sizes[ii] <= cap) { // check if the item fits
+                bins[jj].push_back(sizes[ii]);
+                bin_sizes[jj]+=sizes[ii];
+                break;
+            } else if (jj == 0) { // item didn't fit in any bin
+                bins.push_back({sizes[ii]});
+                bin_sizes.push_back({sizes[ii]});
+                ++num_bins;
+                break;
+            }
+        }
+        // check the most full bins first
+        sort(bin_sizes.begin(),bin_sizes.end());
+    }
     return num_bins;
+}
+
+int 
+steepest_descent(size_list sizes, const double cap)
+{
+    // invoke function to generate initial solution
+    bin_list bins = first_fit_decreasing(sizes, {}, cap);
+    int num_bins = bins.size();
+    cout << "Greedy Solution: " << num_bins << " bins" << endl;
+    // ordered list of waste (positive if over capacity and negative if under)
+    size_list bin_sizes;
+    for (auto bin : bins) {
+        bin_sizes.push_back(accumulate(bin.begin(),bin.end(),0));
+    }
+
+    // iteratively unpack 1 bin of a feasible solution, redistribute
+    // the unpacked items and then search for a feasible
+    // solution by iteratively decreasing the capacity violations on bins
+    // by swapping the items in different bins
+    while (*max_element(bin_sizes.begin(),bin_sizes.end()) > cap) {
+        // first check if a solution with num_bins-1 bins is even possible
+        if (accumulate(sizes.begin(),sizes.end(),0) > cap*(num_bins-1)) {
+            return num_bins;
+        } else { // search for a feasible solutions with num_bins-1 bins
+            // do 1-0 swaps from max to min violation bins
+            // find two bins where swapping an item to another
+            // bin would reduce the total capacity violation of 
+            // item distribution
+            for (int ii=0;ii<num_bins;++ii) {
+                if (bin_sizes[ii] > cap) {
+                    double violation = cap - bin_sizes[ii];
+                    // see if an item in this bin can be moved to another bin without
+                    // increasing the overall capacity violation
+                    for (int jj=0;jj<num_bins;++jj) {
+                        if (ii != jj && bin_sizes[jj] < cap) {
+                            auto item = closest(bins[ii],violation);
+                            bins[jj].push_back({item});
+                            bin_sizes[jj]+=item;
+                            bin_sizes[ii]-=item;
+                        }
+                    }
+                }
+                if (!bin_sizes[ii]) {
+                    num_bins--;
+                }
+            }
+        }
+    }
+    
+}
+
+double closest(size_list vec, double value) {
+    auto const it = std::lower_bound(vec.begin(), vec.end(), value);
+    if (it == vec.end()) { 
+        return -1; 
+    }
+    vec.erase(it);
+    return *it;
+}
+
+struct HeapBin {
+    double capacity;
+    double size;
+    double violation;
+    int id;
 }
 
 void 
@@ -175,8 +269,8 @@ main(int argc, char* argv[])
     srand(time(0));
     instance_info instance;
     if (argc == 1) {
-        user_prompt(instance);
-        //manual_instance(instance);
+        //user_prompt(instance);
+        manual_instance(instance);
     } else if (argc == 2) {
         read_instance(instance, argv[1]);
     } else {
@@ -190,10 +284,12 @@ main(int argc, char* argv[])
     bin_list bins;
     auto start = high_resolution_clock::now();
     //int opt_bins = item_oriented_branch_and_bound(instance.sizes,bins,instance.bin_capacity,instance.sizes.size());
-    int greedy_bins = greedy_first_fit_search(instance.sizes,bins,instance.bin_capacity);
+    //int greedy_bins = first_fit_decreasing(instance.sizes,bin:xs,instance.bin_capacity);
+    int steepest_descent_bins = steepest_descent(instance.sizes,instance.bin_capacity);
     auto stop = high_resolution_clock::now();
     //cout << "Optimal Solution: " << opt_bins << " bins" << endl;
-    cout << "Greedy Solution: " << greedy_bins << " bins" << endl;
+    //cout << "Greedy Solution: " << greedy_bins << " bins" << endl;
+    cout << "Steepest Descent Solution: " << steepest_descent_bins << " bins" << endl;
     auto duration = duration_cast<microseconds>(stop - start);
     cout << "Converged in " << duration.count() << " microseconds" << endl;
 
