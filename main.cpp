@@ -140,69 +140,68 @@ best_fit(size_list sizes, bin_list bins, const double cap)
     return num_bins;
 }
 
-int 
-steepest_descent(size_list sizes, const double cap)
-{
-    // invoke function to generate initial solution
-    bin_list bins = first_fit_decreasing(sizes, {}, cap);
-    int num_bins = bins.size();
-    cout << "Greedy Solution: " << num_bins << " bins" << endl;
-    // ordered list of waste (positive if over capacity and negative if under)
-    size_list bin_sizes;
-    for (auto bin : bins) {
-        bin_sizes.push_back(accumulate(bin.begin(),bin.end(),0));
-    }
-
-    // iteratively unpack 1 bin of a feasible solution, redistribute
-    // the unpacked items and then search for a feasible
-    // solution by iteratively decreasing the capacity violations on bins
-    // by swapping the items in different bins
-    while (*max_element(bin_sizes.begin(),bin_sizes.end()) > cap) {
-        // first check if a solution with num_bins-1 bins is even possible
-        if (accumulate(sizes.begin(),sizes.end(),0) > cap*(num_bins-1)) {
-            return num_bins;
-        } else { // search for a feasible solutions with num_bins-1 bins
-            // do 1-0 swaps from max to min violation bins
-            // find two bins where swapping an item to another
-            // bin would reduce the total capacity violation of 
-            // item distribution
-            for (int ii=0;ii<num_bins;++ii) {
-                if (bin_sizes[ii] > cap) {
-                    double violation = cap - bin_sizes[ii];
-                    // see if an item in this bin can be moved to another bin without
-                    // increasing the overall capacity violation
-                    for (int jj=0;jj<num_bins;++jj) {
-                        if (ii != jj && bin_sizes[jj] < cap) {
-                            auto item = closest(bins[ii],violation);
-                            bins[jj].push_back({item});
-                            bin_sizes[jj]+=item;
-                            bin_sizes[ii]-=item;
-                        }
-                    }
-                }
-                if (!bin_sizes[ii]) {
-                    num_bins--;
-                }
-            }
-        }
-    }
-    
-}
-
-double closest(size_list vec, double value) {
-    auto const it = std::lower_bound(vec.begin(), vec.end(), value);
+double closest(size_list &vec, double value) {
+    sort(vec.begin(),vec.end());
+    auto it = lower_bound(vec.begin(), vec.end(), value);
     if (it == vec.end()) { 
-        return -1; 
+        return vec[vec.size()-1];
     }
     vec.erase(it);
     return *it;
 }
 
-struct HeapBin {
-    double capacity;
-    double size;
-    double violation;
-    int id;
+int 
+steepest_descent(size_list sizes, const double cap)
+{
+    // invoke function to generate initial solution
+    bin_list bins = first_fit_decreasing(sizes, {}, cap);
+    int num_bins = bins.size()-1;
+    int num_sizes = sizes.size();
+    cout << "Greedy Solution: " << num_bins+1 << " bins" << endl;
+    // ordered list of waste (positive if over capacity and negative if under)
+    vector<Bin> bin_sizes;
+    bins[num_bins-1].insert(bins[num_bins-1].end(),bins[num_bins].begin(),bins[num_bins].end());
+    bins.erase(bins.begin()+num_bins);
+    for (int ii=0;ii<num_bins;++ii) {
+        Bin temp = {(double)accumulate(bins[ii].begin(),bins[ii].end(),0), ii};
+        bin_sizes.push_back(temp);
+    }
+    sort(bin_sizes.begin(),bin_sizes.end());
+    // iteratively unpack 1 bin of a feasible solution, redistribute
+    // the unpacked items and then search for a feasible
+    // solution by iteratively decreasing the capacity violations on bins
+    // by swapping the items in different bins
+    bool improvement = true;
+    int max_iters = num_sizes*num_sizes;
+    while (improvement) {
+        improvement = false;
+        int iters = 0;
+        while (bin_sizes[num_bins-1].size > cap) {
+            //print_bin_list(bins);
+            // first check if a solution with num_bins is even possible
+            if (accumulate(sizes.begin(),sizes.end(),0) > cap*(num_bins) || iters > max_iters) {
+                return num_bins+1;
+            } else {
+                // do 1-0 swaps from max to min violation bins
+                double violation = bin_sizes[num_bins-1].size - cap;
+                auto item = closest(bins[bin_sizes[num_bins-1].id],violation);
+                bins[bin_sizes[0].id].push_back({item});
+                bin_sizes[0].size+=item;
+                bin_sizes[num_bins-1].size-=item;
+                improvement = true;
+                sort(bin_sizes.begin(),bin_sizes.end());
+                ++iters;
+            }
+        }
+        int idx = bin_sizes[num_bins-1].id;
+        int idx2 = bin_sizes[num_bins-2].id;
+        bins[idx2].insert(bins[idx2].end(),bins[idx].begin(),bins[idx].end());
+        bins.erase(bins.begin()+idx);
+        bin_sizes[num_bins-2].size = (double)accumulate(bins[num_bins-2].begin(),bins[num_bins-2].end(),0);
+        bin_sizes.erase(bin_sizes.begin()+num_bins-1);
+        num_bins--;
+    }
+    return num_bins;
 }
 
 void 

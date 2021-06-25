@@ -11,6 +11,15 @@ typedef struct instance_info {
     long bin_capacity;
 } instance_info;
 
+typedef struct Bin {
+    double size;
+    int id;
+
+    bool operator<(const Bin other) {
+        return size < other.size;
+    }
+} Bin;
+
 void 
 print_instance_info(instance_info instance) 
 {    
