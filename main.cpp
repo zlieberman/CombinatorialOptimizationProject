@@ -140,14 +140,40 @@ best_fit(size_list sizes, bin_list bins, const double cap)
     return num_bins;
 }
 
+double closest_tabu(size_list &vec, double value, size_list tabu_list) {
+    sort(vec.begin(),vec.end());
+    // find an item greater than the capacity violation that is not
+    // in the tabu list
+    for (auto it=vec.begin();it!=vec.end();++it) {
+        if (*it > value && find(tabu_list.begin(),tabu_list.end(),*it)==tabu_list.end()) {
+            auto out = *it;
+            vec.erase(it);
+            return out;
+        }
+    }
+    // one could not be found so now search for one that is just not in the tabu list
+    for (auto it=vec.begin();it!=vec.end();++it) {
+        if (find(tabu_list.begin(),tabu_list.end(),*it)==tabu_list.end()) {
+            auto out = *it;
+            vec.erase(it);
+            return out;
+        }
+    }
+    // if we got to this point there are no items that can be swapped out from this bin
+    return 200000;
+}
+
 double closest(size_list &vec, double value) {
     sort(vec.begin(),vec.end());
-    auto it = lower_bound(vec.begin(), vec.end(), value);
-    if (it == vec.end()) { 
-        return vec[vec.size()-1];
+    auto it = lower_bound(vec.begin(),vec.end(),value);
+    if (it == vec.end()) {
+        double out = vec.back();
+        vec.pop_back();
+        return out;
     }
+    double out = *it;
     vec.erase(it);
-    return *it;
+    return out;
 }
 
 int 
@@ -171,10 +197,8 @@ steepest_descent(size_list sizes, const double cap)
     // the unpacked items and then search for a feasible
     // solution by iteratively decreasing the capacity violations on bins
     // by swapping the items in different bins
-    bool improvement = true;
     int max_iters = num_sizes*num_sizes;
-    while (improvement) {
-        improvement = false;
+    while (1) {
         int iters = 0;
         while (bin_sizes[num_bins-1].size > cap) {
             //print_bin_list(bins);
@@ -183,12 +207,75 @@ steepest_descent(size_list sizes, const double cap)
                 return num_bins+1;
             } else {
                 // do 1-0 swaps from max to min violation bins
+                // keep track of items removed from each bin so as not to add them back
                 double violation = bin_sizes[num_bins-1].size - cap;
                 auto item = closest(bins[bin_sizes[num_bins-1].id],violation);
                 bins[bin_sizes[0].id].push_back({item});
                 bin_sizes[0].size+=item;
                 bin_sizes[num_bins-1].size-=item;
-                improvement = true;
+                // double violation_max = (violation - item)*(item < violation);
+                // double violation_min = bin_sizes[0].size - cap*(cap < bin_sizes[0].size);
+                // double violation_change = violation_max + violation_min - violation;
+                // cout << "violation change: " << violation_change << endl;
+                sort(bin_sizes.begin(),bin_sizes.end());
+                ++iters;
+            }
+        }
+        int idx = bin_sizes[num_bins-1].id;
+        int idx2 = bin_sizes[num_bins-2].id;
+        bins[idx2].insert(bins[idx2].end(),bins[idx].begin(),bins[idx].end());
+        bins.erase(bins.begin()+idx);
+        bin_sizes[num_bins-2].size = (double)accumulate(bins[num_bins-2].begin(),bins[num_bins-2].end(),0);
+        bin_sizes.erase(bin_sizes.begin()+num_bins-1);
+        num_bins--;
+    }
+    return num_bins;
+}
+
+int 
+tabu_search(size_list sizes, const double cap)
+{
+    // invoke function to generate initial solution
+    bin_list bins = first_fit_decreasing(sizes, {}, cap);
+    int num_bins = bins.size()-1;
+    int num_sizes = sizes.size();
+    cout << "Greedy Solution: " << num_bins+1 << " bins" << endl;
+    // ordered list of waste (positive if over capacity and negative if under)
+    vector<Bin> bin_sizes;
+    bins[num_bins-1].insert(bins[num_bins-1].end(),bins[num_bins].begin(),bins[num_bins].end());
+    bins.erase(bins.begin()+num_bins);
+    bin_list tabu_list;
+    for (int ii=0;ii<num_bins;++ii) {
+        Bin temp = {(double)accumulate(bins[ii].begin(),bins[ii].end(),0), ii};
+        bin_sizes.push_back(temp);
+        tabu_list.push_back({});
+    }
+    sort(bin_sizes.begin(),bin_sizes.end());
+    // iteratively unpack 1 bin of a feasible solution, redistribute
+    // the unpacked items and then search for a feasible
+    // solution by iteratively decreasing the capacity violations on bins
+    // by swapping the items in different bins
+    int max_iters = num_sizes*num_sizes;
+    while (1) {
+        int iters = 0;
+        while (bin_sizes[num_bins-1].size > cap) {
+            //print_bin_list(bins);
+            // first check if a solution with num_bins is even possible
+            if (accumulate(sizes.begin(),sizes.end(),0) > cap*(num_bins) || iters > max_iters) {
+                return num_bins+1;
+            } else {
+                // do 1-0 swaps from max to min violation bins
+                // keep track of items removed from each bin so as not to add them back
+                double violation = bin_sizes[num_bins-1].size - cap;
+                auto item = closest_tabu(bins[bin_sizes[num_bins-1].id],violation,tabu_list[bin_sizes[0].id]);
+                tabu_list[bin_sizes[num_bins-1].id].push_back({item});
+                bins[bin_sizes[0].id].push_back({item});
+                bin_sizes[0].size+=item;
+                bin_sizes[num_bins-1].size-=item;
+                // double violation_max = (violation - item)*(item < violation);
+                // double violation_min = bin_sizes[0].size - cap*(cap < bin_sizes[0].size);
+                // double violation_change = violation_max + violation_min - violation;
+                // cout << "violation change: " << violation_change << endl;
                 sort(bin_sizes.begin(),bin_sizes.end());
                 ++iters;
             }
@@ -285,10 +372,12 @@ main(int argc, char* argv[])
     //int opt_bins = item_oriented_branch_and_bound(instance.sizes,bins,instance.bin_capacity,instance.sizes.size());
     //int greedy_bins = first_fit_decreasing(instance.sizes,bin:xs,instance.bin_capacity);
     int steepest_descent_bins = steepest_descent(instance.sizes,instance.bin_capacity);
+    int tabu_search_bins = tabu_search(instance.sizes,instance.bin_capacity);
     auto stop = high_resolution_clock::now();
     //cout << "Optimal Solution: " << opt_bins << " bins" << endl;
     //cout << "Greedy Solution: " << greedy_bins << " bins" << endl;
     cout << "Steepest Descent Solution: " << steepest_descent_bins << " bins" << endl;
+    cout << "Tabu Search: " << tabu_search_bins << " bins" << endl;
     auto duration = duration_cast<microseconds>(stop - start);
     cout << "Converged in " << duration.count() << " microseconds" << endl;
 
