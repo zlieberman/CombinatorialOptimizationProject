@@ -406,12 +406,12 @@ main(int argc, char* argv[])
     auto start = high_resolution_clock::now();
     //int opt_bins = item_oriented_branch_and_bound(instance.sizes,bins,instance.bin_capacity,instance.sizes.size());
     //int greedy_bins = first_fit_decreasing(instance.sizes,bin:xs,instance.bin_capacity);
-    //int steepest_descent_bins = steepest_descent(instance.sizes,instance.bin_capacity);
+    int steepest_descent_bins = steepest_descent(instance.sizes,instance.bin_capacity);
     int tabu_search_bins = tabu_search(instance.sizes,instance.bin_capacity);
     auto stop = high_resolution_clock::now();
     //cout << "Optimal Solution: " << opt_bins << " bins" << endl;
     //cout << "Greedy Solution: " << greedy_bins << " bins" << endl;
-    //cout << "Steepest Descent Solution: " << steepest_descent_bins << " bins" << endl;
+    cout << "Steepest Descent Solution: " << steepest_descent_bins << " bins" << endl;
     cout << "Tabu Search: " << tabu_search_bins << " bins" << endl;
     auto duration = duration_cast<microseconds>(stop - start);
     cout << "Converged in " << duration.count() << " microseconds" << endl;
