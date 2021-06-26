@@ -112,24 +112,25 @@ first_fit_decreasing(size_list sizes, bin_list bins, const double cap)
     return bins;
 }
 
-int
+bin_list
 best_fit(size_list sizes, bin_list bins, const double cap)
 {
     int num_bins = 1;
     // add the first item to the first bin
     bins.push_back({sizes[0]});
-    // heap of current size of each bin
-    size_list bin_sizes({sizes[0]});
+    // current size of each bin
+    vector<Bin> bin_sizes;
+    bin_sizes.push_back({sizes[0],0});
     // add items to the first bin they fit in
-    for (int ii=0;ii<=sizes.size();--ii) {
-        for (int jj=num_bins;jj>=0;--jj) {
-            if (bin_sizes[jj] + sizes[ii] <= cap) { // check if the item fits
-                bins[jj].push_back(sizes[ii]);
-                bin_sizes[jj]+=sizes[ii];
+    for (int ii=1;ii<=sizes.size();++ii) {
+        for (int jj=num_bins-1;jj>=0;--jj) {
+            if (bin_sizes[jj].size + sizes[ii] <= cap) { // check if the item fits
+                bins[bin_sizes[jj].id].push_back(sizes[ii]);
+                bin_sizes[jj].size+=sizes[ii];
                 break;
             } else if (jj == 0) { // item didn't fit in any bin
                 bins.push_back({sizes[ii]});
-                bin_sizes.push_back({sizes[ii]});
+                bin_sizes.push_back({sizes[ii],num_bins});
                 ++num_bins;
                 break;
             }
@@ -137,7 +138,7 @@ best_fit(size_list sizes, bin_list bins, const double cap)
         // check the most full bins first
         sort(bin_sizes.begin(),bin_sizes.end());
     }
-    return num_bins;
+    return bins;
 }
 
 double closest_tabu(size_list &vec, double value, size_list tabu_list) {
@@ -180,7 +181,7 @@ int
 steepest_descent(size_list sizes, const double cap)
 {
     // invoke function to generate initial solution
-    bin_list bins = first_fit_decreasing(sizes, {}, cap);
+    bin_list bins = best_fit(sizes, {}, cap);
     int num_bins = bins.size();
     int num_sizes = sizes.size();
     cout << "Greedy Solution: " << num_bins << " bins" << endl;
