@@ -46,4 +46,13 @@ print_bin_list(bin_list bins)
     }
 }
 
+void
+print_size_list(size_list sizes) {
+    std::cout << "{ ";
+    for (auto item : sizes) {
+        std::cout << item << " ";
+    }
+    std::cout << "}" << std::endl;
+}
+
 #endif

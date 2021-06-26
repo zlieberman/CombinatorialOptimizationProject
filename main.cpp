@@ -204,10 +204,13 @@ steepest_descent(size_list sizes, const double cap)
     int max_iters = num_sizes*20;
     while (num_bins > 0) {
         int iters = 0;
+        if (accumulate(sizes.begin(),sizes.end(),0) > cap*(num_bins)) {
+            return num_bins+1;
+        }
         while (bin_sizes[num_bins-1].size > cap) {
             //print_bin_list(bins);
             // first check if a solution with num_bins is even possible
-            if (accumulate(sizes.begin(),sizes.end(),0) > cap*(num_bins) || iters > max_iters) {
+            if (iters > max_iters) {
                 return num_bins+1;
             } else {
                 // do 1-0 swaps from max to min violation bins
@@ -266,13 +269,23 @@ tabu_search(size_list sizes, const double cap)
     // the unpacked items and then search for a feasible
     // solution by iteratively decreasing the capacity violations on bins
     // by swapping items from the max to minimum bin
-    int max_iters = 20*num_sizes;
+    int max_iters = num_bins*num_bins*num_bins;
     while (num_bins > 0) {
         int iters = 0;
+        //cout << "Num Bins: " << num_bins << endl;
+        /*
+        for (auto bin : bin_sizes) {
+            cout << bin.size << " ";
+        }
+        cout << endl;
+        */
+        //print_bin_list(bins);
+        if (accumulate(sizes.begin(),sizes.end(),0) > cap*(num_bins)) {
+            return num_bins+1;
+        }
         while (bin_sizes[num_bins-1].size > cap) {
-            //print_bin_list(bins);
             // first check if a solution with num_bins is even possible
-            if (accumulate(sizes.begin(),sizes.end(),0) > cap*(num_bins) || iters > max_iters) {
+            if (iters > max_iters) {
                 return num_bins+1;
             } else {
                 // do 1-0 swaps from max to min violation bins
@@ -393,12 +406,12 @@ main(int argc, char* argv[])
     auto start = high_resolution_clock::now();
     //int opt_bins = item_oriented_branch_and_bound(instance.sizes,bins,instance.bin_capacity,instance.sizes.size());
     //int greedy_bins = first_fit_decreasing(instance.sizes,bin:xs,instance.bin_capacity);
-    int steepest_descent_bins = steepest_descent(instance.sizes,instance.bin_capacity);
+    //int steepest_descent_bins = steepest_descent(instance.sizes,instance.bin_capacity);
     int tabu_search_bins = tabu_search(instance.sizes,instance.bin_capacity);
     auto stop = high_resolution_clock::now();
     //cout << "Optimal Solution: " << opt_bins << " bins" << endl;
     //cout << "Greedy Solution: " << greedy_bins << " bins" << endl;
-    cout << "Steepest Descent Solution: " << steepest_descent_bins << " bins" << endl;
+    //cout << "Steepest Descent Solution: " << steepest_descent_bins << " bins" << endl;
     cout << "Tabu Search: " << tabu_search_bins << " bins" << endl;
     auto duration = duration_cast<microseconds>(stop - start);
     cout << "Converged in " << duration.count() << " microseconds" << endl;
