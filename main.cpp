@@ -9,7 +9,6 @@
 #include "utils.hpp"
 #include <chrono>
 
-using namespace std::chrono;
 using namespace std;
 
 size_list 
@@ -49,7 +48,7 @@ item_oriented_branch_and_bound(size_list sizes, bin_list bins, const int cap, in
     sizes.pop_back();
     // now we are being passed in the parent, we should use the parent to generate
     // child nodes
-    for (int ii=0; ii<bins.size(); ++ii) {
+    for (size_t ii=0; ii<bins.size(); ++ii) {
         // for each completion in the completion tree, if next_item can be added
         // to it without violating the capacity constraint, create a child node
         // with next_item added to that completion
@@ -58,7 +57,7 @@ item_oriented_branch_and_bound(size_list sizes, bin_list bins, const int cap, in
         if (cur_size + next_item <= cap) {
             // run the exhaustive search using the new set of subsets
             bin_list child;
-            for (int jj=0; jj<bins.size(); ++jj) {
+            for (size_t jj=0; jj<bins.size(); ++jj) {
                 if (ii == jj) {
                     child.push_back(completion);
                     child[jj].push_back(next_item);
@@ -122,7 +121,7 @@ best_fit(size_list sizes, bin_list bins, const double cap)
     vector<Bin> bin_sizes;
     bin_sizes.push_back({sizes[0],0});
     // add items to the first bin they fit in
-    for (int ii=1;ii<=sizes.size();++ii) {
+    for (size_t ii=1;ii<=sizes.size();++ii) {
         for (int jj=num_bins-1;jj>=0;--jj) {
             if (bin_sizes[jj].size + sizes[ii] <= cap) { // check if the item fits
                 bins[bin_sizes[jj].id].push_back(sizes[ii]);
@@ -247,7 +246,6 @@ tabu_search(size_list sizes, const double cap)
     // invoke function to generate initial solution
     bin_list bins = first_fit_decreasing(sizes, {}, cap);
     int num_bins = bins.size();
-    int num_sizes = sizes.size();
     cout << "Greedy Solution: " << num_bins << " bins" << endl;
     if (num_bins <= 1) {
         return num_bins;
@@ -273,14 +271,6 @@ tabu_search(size_list sizes, const double cap)
     int max_iters = num_bins*num_bins*num_bins;
     while (num_bins > 0) {
         int iters = 0;
-        //cout << "Num Bins: " << num_bins << endl;
-        /*
-        for (auto bin : bin_sizes) {
-            cout << bin.size << " ";
-        }
-        cout << endl;
-        */
-        //print_bin_list(bins);
         if (accumulate(sizes.begin(),sizes.end(),0) > cap*(num_bins)) {
             return num_bins+1;
         }
@@ -404,17 +394,17 @@ main(int argc, char* argv[])
 
     cout << "######## Finding Solution ########" << endl;
     bin_list bins;
-    auto start = high_resolution_clock::now();
+    auto start = chrono::high_resolution_clock::now();
     //int opt_bins = item_oriented_branch_and_bound(instance.sizes,bins,instance.bin_capacity,instance.sizes.size());
     //int greedy_bins = first_fit_decreasing(instance.sizes,bin:xs,instance.bin_capacity);
     int steepest_descent_bins = steepest_descent(instance.sizes,instance.bin_capacity);
     int tabu_search_bins = tabu_search(instance.sizes,instance.bin_capacity);
-    auto stop = high_resolution_clock::now();
+    auto stop = chrono::high_resolution_clock::now();
     //cout << "Optimal Solution: " << opt_bins << " bins" << endl;
     //cout << "Greedy Solution: " << greedy_bins << " bins" << endl;
     cout << "Steepest Descent Solution: " << steepest_descent_bins << " bins" << endl;
     cout << "Tabu Search: " << tabu_search_bins << " bins" << endl;
-    auto duration = duration_cast<microseconds>(stop - start);
+    auto duration = chrono::duration_cast<chrono::microseconds>(stop - start);
     cout << "Converged in " << duration.count() << " microseconds" << endl;
 
     return 0;
